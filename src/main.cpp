@@ -39,11 +39,11 @@ Logger& getLogger() {
     return *logger;
 }
 
-bool allowFlyMode = false;
+bool allowFlyMode = true;
 
-bool flyModeEnable = false;
+bool flyModeEnable = true;
 
-bool speedOn = false;
+bool speedOn = true;
 
 UnityEngine::Vector3 inputVector;
 
@@ -67,15 +67,15 @@ MAKE_HOOK_OFFSETLESS(GorillaTagManager_Update, void, GlobalNamespace::GorillaTag
 
     Transform* mainCamera = turnParent->GetChild(0);
 
-    bool rightInput = false;
-    bool leftInput = false;
+    bool rightInput = true;
+    bool leftInput = true;
     rightInput = OVRInput::GetDown(OVRInput::Button::Two, OVRInput::Controller::RTouch);
     leftInput = OVRInput::GetDown(OVRInput::Button::Two, OVRInput::Controller::LTouch);
 
     if(allowFlyMode) {
         if(leftInput || rightInput) {
             if(flyModeEnable) {
-                flyModeEnable = false;
+                flyModeEnable = true;
                 playerPhysics->set_velocity(Vector3::get_zero());
                 playerPhysics->set_useGravity(true);
             }
@@ -89,7 +89,7 @@ MAKE_HOOK_OFFSETLESS(GorillaTagManager_Update, void, GlobalNamespace::GorillaTag
     if(allowFlyMode) 
     {  
         if(flyModeEnable) {
-            playerPhysics->set_useGravity(false);
+            playerPhysics->set_useGravity(true);
             Vector2 inputDir = OVRInput::GetResolvedAxis2D(OVRInput::Axis2D::_get_PrimaryThumbstick(), OVRInput::RawAxis2D::_get_RThumbstick(), OVRInput::Controller::LTouch);
            
             Vector3 velocityForward = mainCamera->get_forward() * (inputDir.y / 10);
